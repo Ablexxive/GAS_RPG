@@ -4,10 +4,19 @@
 #include "Player/ARPlayerController.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
+#include "Interaction/InteractionInterface.h"
 
 AARPlayerController::AARPlayerController()
 {
 	bReplicates = true;
+}
+
+void AARPlayerController::PlayerTick(float DeltaSeconds)
+{
+	Super::PlayerTick(DeltaSeconds);
+
+	CursorTrace();
+	
 }
 
 void AARPlayerController::BeginPlay()
@@ -53,4 +62,39 @@ void AARPlayerController::Move(const FInputActionValue& InputActionValue)
 		ControlledPawn->AddMovementInput(ForwardDirection, InputAxisVector.Y);
 		ControlledPawn->AddMovementInput(RightDirection, InputAxisVector.X);
 	}
+}
+
+void AARPlayerController::CursorTrace()
+{
+	FHitResult CursorHit;
+	//GetHitResultUnderCursor(ECC_Visibility, false, CursorHit);
+	GetHitResultUnderCursor(ECC_Pawn, false, CursorHit);
+	if (!CursorHit.bBlockingHit) return;
+
+	LastActor = ThisActor;
+	ThisActor = CursorHit.GetActor(); // because we are using TScriptInterface, we don't have to cast manually.
+
+	if (ThisActor.GetInterface() == nullptr)
+	{
+		if (LastActor.GetInterface() != nullptr)
+		{
+			LastActor->UnHighlightActor();
+		}
+	}
+	else
+	{
+		ThisActor->HighlightActor();
+	}
+	/*
+	if (ThisActor != nullptr (ThisActor != LastActor))
+	{
+		if (LastActor)
+		{
+			LastActor->UnHighlightActor();
+		}
+		ThisActor->HighlightActor();
+	}
+	*/
+	// If ThisActor == Last Actor, or if n
+	//if (!LastActor && !ThisActor) return;
 }

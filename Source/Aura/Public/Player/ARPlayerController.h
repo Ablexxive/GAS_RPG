@@ -8,6 +8,7 @@
 
 class UInputMappingContext;
 class UInputAction;
+class IInteractionInterface;
 
 UCLASS()
 class AURA_API AARPlayerController : public APlayerController
@@ -16,7 +17,8 @@ class AURA_API AARPlayerController : public APlayerController
 
 public:
 	AARPlayerController();
-
+	virtual void PlayerTick(float DeltaSeconds) override;
+	
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
@@ -31,4 +33,9 @@ private:
 	// By putting "struct" we forward decalare it. Since it's a struct and not
 	// a class, we can do it here.
 	void Move(const struct FInputActionValue& InputActionValue);
+
+	// Highlighting
+	void CursorTrace();
+	TScriptInterface<IInteractionInterface> LastActor;
+	TScriptInterface<IInteractionInterface> ThisActor;	
 };
