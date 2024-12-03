@@ -16,6 +16,7 @@ class AURA_API AAREnemyCharacter : public AARCharacterBase, public IInteractionI
 	GENERATED_BODY()
 
 public:
+	AAREnemyCharacter();
 	virtual void BeginPlay() override;
 	
 	// Interaction Interface Functions

@@ -12,6 +12,11 @@ AARCharacterBase::AARCharacterBase()
 	Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
+UAbilitySystemComponent* AARCharacterBase::GetAbilitySystemComponent() const
+{
+	return AbilitySystemComponent;
+}
+
 void AARCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
