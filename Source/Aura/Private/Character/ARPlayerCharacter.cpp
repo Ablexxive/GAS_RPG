@@ -38,9 +38,11 @@ void AARPlayerCharacter::InitAbilityActorInfo()
 {
 	const AController* MyController = GetController();
 	
-	AARPlayerState* ARPlayerState = MyController->GetPlayerState<AARPlayerState>();
-	AbilitySystemComponent = ARPlayerState->GetAbilitySystemComponent();
-	AttributeSet = ARPlayerState->GetAttributeSet();
+	if (AARPlayerState* ARPlayerState = MyController->GetPlayerState<AARPlayerState>())
+	{
+		AbilitySystemComponent = ARPlayerState->GetAbilitySystemComponent();
+		AttributeSet = ARPlayerState->GetAttributeSet();
 
-	AbilitySystemComponent->InitAbilityActorInfo(ARPlayerState, this);
+		AbilitySystemComponent->InitAbilityActorInfo(ARPlayerState, this);
+	}
 }
